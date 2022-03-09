@@ -16,7 +16,7 @@
       </ImageView>
       <StackPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="startBtn" mnemonicParsing="false" text="Start Game" textAlignment="CENTER" />
+            <Button fx:id="startBtn" mnemonicParsing="false" onAction="#startGame" text="Start Game" textAlignment="CENTER" />
          </children>
       </StackPane>
    </children>
