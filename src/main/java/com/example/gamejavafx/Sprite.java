@@ -3,14 +3,12 @@ package com.example.gamejavafx;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Sprite {
-
-    private Image image;
-    private int posX, posY, imageWidth, imageHeight, speed;
+public abstract class Sprite {
+    protected Image image;
+    protected int posX, posY, imageWidth, imageHeight, speed;
     private boolean alive;
 
-    public Sprite(Image image, int posX, int posY, int imageWidth, int imageHeight, int speed) {
-        setImage(image);
+    public Sprite(int posX, int posY, int imageWidth, int imageHeight, int speed) {
         setPosX(posX);
         setPosY(posY);
         setImageWidth(imageWidth);
@@ -110,5 +108,13 @@ public class Sprite {
         if (posX >= GameConfig.getGameWidth() - imageWidth) {
             posX = GameConfig.getGameWidth() - imageWidth;
         }
+    }
+
+    /**
+     * This method returns true if 2 sprite's collide
+     */
+    public boolean collidesWith(Sprite sprite) {
+        return ((posX + imageWidth/2 > sprite.posX) && (posX < sprite.posX + sprite.imageWidth/2) &&
+                (posY + imageHeight/2 > sprite.posY) && (posY < sprite.posY + sprite.imageHeight/2));
     }
 }
