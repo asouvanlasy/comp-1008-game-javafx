@@ -48,8 +48,13 @@ public class Ship extends Sprite {
     public void draw(GraphicsContext gc) {
         missilePause--;
 
-        gc.drawImage(image, posX, posY, imageWidth, imageHeight);
+        // Draw ship
+        super.draw(gc);
 
+        // Remove missiles that have hit an alien or gone off-screen
+        activeMissiles.removeIf(missile -> !missile.isAlive());
+
+        // Loop over all the active missiles and draw them on the canvas
         for (Missile missile : activeMissiles) {
             missile.draw(gc);
         }

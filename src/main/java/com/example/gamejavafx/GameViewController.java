@@ -34,22 +34,21 @@ public class GameViewController implements Initializable {
 
     @FXML
     private void startGame(ActionEvent event) {
-        Canvas canvas = new Canvas(GameConfig.getGameHeight(), GameConfig.getGameWidth());
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        anchorPane.getChildren().add(canvas);
 
         // Initialize keyboard input
         activeKeys = new HashSet<>();
 
         // This creates a listener that will add the key pressed to the Set
         anchorPane.getScene().setOnKeyPressed(keyPressed -> {
-            System.out.println("Keys currently pressed -> "+activeKeys);
             activeKeys.add(keyPressed.getCode());
         });
 
         anchorPane.getScene().setOnKeyReleased(keyReleased -> {
             activeKeys.remove(keyReleased.getCode());
         });
+
+        Canvas canvas = new Canvas(GameConfig.getGameHeight(), GameConfig.getGameWidth());
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Load background
         Image background = new Image(getClass().getResource("img/space.png").toExternalForm());
@@ -65,7 +64,7 @@ public class GameViewController implements Initializable {
         SecureRandom rng = new SecureRandom();
 
         //Add Alien's to the scene
-        for (int i = 1; i<=5 ; i++) {
+        for (int i = 1; i <= 50 ; i++) {
             aliens.add(new Alien(rng.nextInt(600,900),
             rng.nextInt(30,GameConfig.getGameHeight()-GameConfig.getAlienHeight())));
         }
@@ -79,7 +78,13 @@ public class GameViewController implements Initializable {
                 updateShipLocation(ship);
                 ship.draw(gc);
 
+                // This is a lambda expression
+                // It loops over the collection of aliens and calls the method isAlive() for each alien
+                // If the !alien.isAlive() evaluates to true, then remove the alien from the collection
+                aliens.removeIf(alien -> !alien.isAlive());
+
                 for (Alien alien : aliens) {
+
                     alien.draw(gc);
 
                     for (Missile missile : ship.getActiveMissiles()) {
@@ -92,20 +97,21 @@ public class GameViewController implements Initializable {
                 }
             }
         };
+        anchorPane.getChildren().add(canvas);
         timer.start();
     }
 
     private void updateShipLocation(Ship ship) {
-        if (activeKeys.contains(KeyCode.LEFT)) {
+        if (activeKeys.contains(KeyCode.A)) {
             ship.moveLeft();
         }
-        if (activeKeys.contains(KeyCode.RIGHT)) {
+        if (activeKeys.contains(KeyCode.D)) {
             ship.moveRight();
         }
-        if (activeKeys.contains(KeyCode.UP)) {
+        if (activeKeys.contains(KeyCode.W)) {
             ship.moveUp();
         }
-        if (activeKeys.contains(KeyCode.DOWN)) {
+        if (activeKeys.contains(KeyCode.S)) {
             ship.moveDown();
         }
         if (activeKeys.contains(KeyCode.SPACE)) {

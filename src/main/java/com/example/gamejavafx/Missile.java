@@ -28,6 +28,7 @@ public class Missile extends Sprite {
     public void draw(GraphicsContext gc) {
         if (isAlive()) {
             gc.drawImage(image, getPosX(), getPosY(), getImageWidth(), getImageHeight());
+            super.draw(gc);
             moveRight();
         }
     }
